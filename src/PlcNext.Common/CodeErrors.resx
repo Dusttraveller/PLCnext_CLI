@@ -134,6 +134,6 @@
     <value>File could not be parsed.</value>
   </data>
   <data name="CPP0005" xml:space="preserve">
-    <value>A parsing exception was thrown.{0}</value>
+    <value>Syntax error occured {0}</value>
   </data>
 </root>

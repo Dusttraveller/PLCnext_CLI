@@ -116,7 +116,7 @@ namespace PlcNext.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A parsing exception was thrown.{0}.
+        ///   Looks up a localized string similar to Syntax error occured {0}.
         /// </summary>
         internal static string CPP0005 {
             get {
