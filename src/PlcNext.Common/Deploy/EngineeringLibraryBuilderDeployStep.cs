@@ -9,6 +9,7 @@
 
 using PlcNext.Common.Build;
 using PlcNext.Common.DataModel;
+using PlcNext.Common.Templates.Description;
 using PlcNext.Common.Tools;
 using PlcNext.Common.Tools.Events;
 
@@ -25,7 +26,7 @@ namespace PlcNext.Common.Deploy
 
         public string Identifier => "LibraryBuilderDeployStep";
 
-        public void Execute(Entity dataModel, ChangeObservable observable)
+        public void Execute(Entity dataModel, ChangeObservable observable, templateDeployPostStep _)
         {
             int exitCode = builder.Execute(dataModel);
             if (exitCode != 0)

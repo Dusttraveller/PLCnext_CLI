@@ -198,7 +198,7 @@ namespace PlcNext.Common.Templates
                     IDeployStep step = deploySteps.FirstOrDefault(s => s.Identifier == deployPostStep.identifier);
                     if (step != null)
                     {
-                        step.Execute(dataModel, observable);
+                        step.Execute(dataModel, observable, deployPostStep);
                     }
                     else
                     {

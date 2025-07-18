@@ -14,6 +14,7 @@ using System.Text;
 using PlcNext.Common.Build;
 using PlcNext.Common.DataModel;
 using PlcNext.Common.Project;
+using PlcNext.Common.Templates.Description;
 using PlcNext.Common.Tools;
 using PlcNext.Common.Tools.Events;
 using PlcNext.Common.Tools.FileSystem;
@@ -33,7 +34,7 @@ namespace PlcNext.Common.Deploy
 
         public string Identifier => "CopyDependenciesDeployStep";
 
-        public void Execute(Entity dataModel, ChangeObservable observable)
+        public void Execute(Entity dataModel, ChangeObservable observable, templateDeployPostStep _)
         {
             ProjectEntity project = ProjectEntity.Decorate(dataModel.Root);
             

@@ -41,6 +41,8 @@ namespace PlcNext.Common.Templates.Description {
         
         private templateFile[] fileField;
         
+        private templateDirectory[] folderField;
+        
         private templateGeneratedFile[] generatedFileField;
         
         private string descriptionField;
@@ -75,8 +77,6 @@ namespace PlcNext.Common.Templates.Description {
         
         private string deployEngineField;
         
-        private templateDirectory[] folderField;
-
         public TemplateDescription() {
             this.isRootField = false;
             this.isHiddenField = false;
@@ -754,6 +754,7 @@ namespace PlcNext.Common.Templates.Description {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(templateArgumentInstance))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(templateFixedArgumentDefinition))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(templateArgumentDefinition))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.7.3081.0")]
     [System.SerializableAttribute()]
@@ -772,6 +773,28 @@ namespace PlcNext.Common.Templates.Description {
             }
             set {
                 this.nameField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.7.3081.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.phoenixcontact.com/schema/clitemplates")]
+    public partial class templateFixedArgumentDefinition : templateArgumentBase {
+        
+        private string valueField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string value {
+            get {
+                return this.valueField;
+            }
+            set {
+                this.valueField = value;
             }
         }
     }
@@ -887,6 +910,8 @@ namespace PlcNext.Common.Templates.Description {
         
         private templateExample[] exampleField;
         
+        private templateFixedArgumentDefinition[] fixedArgumentsField;
+        
         private string identifierField;
         
         /// <remarks/>
@@ -912,6 +937,17 @@ namespace PlcNext.Common.Templates.Description {
         }
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("FixedArgument", IsNullable=false)]
+        public templateFixedArgumentDefinition[] FixedArguments {
+            get {
+                return this.fixedArgumentsField;
+            }
+            set {
+                this.fixedArgumentsField = value;
+            }
+        }
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string identifier {
             get {
@@ -919,6 +955,59 @@ namespace PlcNext.Common.Templates.Description {
             }
             set {
                 this.identifierField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.7.3081.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.phoenixcontact.com/schema/clitemplates")]
+    public partial class templateDirectory {
+        
+        private string nameField;
+        
+        private string pathField;
+        
+        private bool excludedField;
+        
+        public templateDirectory() {
+            this.excludedField = false;
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                this.nameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string path {
+            get {
+                return this.pathField;
+            }
+            set {
+                this.pathField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.ComponentModel.DefaultValueAttribute(false)]
+        public bool excluded {
+            get {
+                return this.excludedField;
+            }
+            set {
+                this.excludedField = value;
             }
         }
     }
@@ -936,6 +1025,8 @@ namespace PlcNext.Common.Templates.Description {
         
         private bool excludedField;
         
+        private bool excludedForEmptyTemplateField;
+        
         private string templateField;
         
         private string pathField;
@@ -952,8 +1043,6 @@ namespace PlcNext.Common.Templates.Description {
         
         private string equalsversionField;
         
-        private bool excludedForEmptyTemplateField;
-
         public templateFile() {
             this.excludedField = false;
             this.excludedForEmptyTemplateField = false;
@@ -1089,57 +1178,6 @@ namespace PlcNext.Common.Templates.Description {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.phoenixcontact.com/schema/clitemplates")]
-    public partial class templateDirectory {
-        
-        private string nameField;
-        private string pathField;
-        private bool excludedField;
-
-        public templateDirectory() {
-            this.excludedField = false;
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string name {
-            get {
-                return this.nameField;
-            }
-            set {
-                this.nameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string path {
-            get {
-                return this.pathField;
-            }
-            set {
-                this.pathField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        [System.ComponentModel.DefaultValueAttribute(false)]
-        public bool excluded {
-            get {
-                return this.excludedField;
-            }
-            set {
-                this.excludedField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.7.3081.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.phoenixcontact.com/schema/clitemplates")]
     public partial class templateGeneratedFile : templateFile {
         
         private string generatorField;
@@ -1184,7 +1222,11 @@ namespace PlcNext.Common.Templates.Description {
         private string templateField;
         
         private bool excludedField;
-
+        
+        public templateReference() {
+            this.excludedField = false;
+        }
+        
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("Argument", IsNullable=false)]
         public templateArgumentInstance[] Arguments {

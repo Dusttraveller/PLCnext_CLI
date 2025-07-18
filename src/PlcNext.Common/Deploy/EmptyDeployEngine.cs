@@ -8,18 +8,14 @@
 #endregion
 
 using PlcNext.Common.DataModel;
-using PlcNext.Common.Templates.Description;
-using PlcNext.Common.Tools.Events;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PlcNext.Common.Deploy
 {
-    public interface IDeployStep
+    internal class EmptyDeployEngine : IDeployService
     {
-        string Identifier { get; }
 
-        void Execute(Entity dataModel, ChangeObservable observable, templateDeployPostStep currentDeployStep);
+        public void DeployFiles(Entity dataModel)
+        {
+        }
     }
 }

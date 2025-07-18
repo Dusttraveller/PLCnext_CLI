@@ -11,6 +11,7 @@ using PlcNext.Common.Build;
 using PlcNext.Common.DataModel;
 using PlcNext.Common.Tools.Events;
 using PlcNext.Common.Tools;
+using PlcNext.Common.Templates.Description;
 
 namespace PlcNext.Common.Deploy
 {
@@ -25,7 +26,7 @@ namespace PlcNext.Common.Deploy
 
         public string Identifier => "SharedNativeLibraryBuilderDeployStep";
 
-        public void Execute(Entity dataModel, ChangeObservable observable)
+        public void Execute(Entity dataModel, ChangeObservable observable, templateDeployPostStep _)
         {
             int exitCode = builder.ExecuteSn(dataModel);
             if (exitCode != 0)

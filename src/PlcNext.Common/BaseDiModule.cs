@@ -139,6 +139,8 @@ namespace PlcNext.Common
                    .WithAttributeFiltering().InstancePerLifetimeScope();
             builder.RegisterType<SharedNativeLibraryBuilderDeployStep>().As<IDeployStep>().InstancePerLifetimeScope();
             builder.RegisterType<AcfGenerateStep>().As<IGenerateStep>().InstancePerLifetimeScope();
+            builder.RegisterType<EmptyDeployEngine>().Keyed<IDeployService>("EmptyDeployEngine").InstancePerLifetimeScope();
+            builder.RegisterType<ToolExecutionDeployStep>().As<IDeployStep>().InstancePerLifetimeScope();
             if (activateAutoComponents)
             {
                 AddAutoActivatedComponents(builder, noSdkExploration);

@@ -121,7 +121,7 @@
       <xs:attribute name="deployEngine" type="xs:string" use="optional" default="DefaultDeployEngine">
         <xs:annotation>
           <xs:documentation>
-            The engine that executes the deploy command. In contrast the DeployPostStep are executed after the engine ran.
+            The engine that executes the deploy command. In contrast the DeployPostSteps are executed after the engine ran.
           </xs:documentation>
         </xs:annotation>
       </xs:attribute>
@@ -140,7 +140,7 @@
       <xs:element minOccurs="0" name="Description" type="xs:string">
         <xs:annotation>
           <xs:documentation>
-            Description of the example. This should be a short sentance or title.
+            Description of the example. This should be a short sentence or title.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -156,6 +156,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="Arguments" type="templateArgumentDefinitions"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="Example" type="templateExample"/>
+      <xs:element minOccurs="0" name="FixedArguments" type="templateFixedArgumentDefinitions" />
     </xs:sequence>
     <xs:attribute name="identifier" type="xs:string" use="required">
       <xs:annotation>
@@ -216,7 +217,7 @@
         The template the relationship references can access all related templates with the following generator expressions:
         $(related) - access all directly related templates
         $(hierarchy) - access the whole relation hierarchy
-        Related templates can be filtered like so:
+        Related templates can be filtered like this:
         $([foreach]program[in]related[of-type]program)
       </xs:documentation>
     </xs:annotation>
@@ -225,7 +226,7 @@
         <xs:attribute name="type" type="templateName" use="required">
           <xs:annotation>
             <xs:documentation>
-              The name the related template.
+              The name of the related template.
             </xs:documentation>
           </xs:annotation>
         </xs:attribute>
@@ -303,11 +304,23 @@
       <xs:element minOccurs="1" maxOccurs="unbounded" name="Argument" type="templateArgumentDefinition"/>
     </xs:sequence>
   </xs:complexType>
+  
+  <xs:complexType name="templateFixedArgumentDefinitions">
+    <xs:annotation>
+      <xs:documentation>
+        Fixed arguments for the template.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="FixedArgument" type="templateFixedArgumentDefinition"/>
+    </xs:sequence>
+  </xs:complexType>
+  
 
   <xs:complexType name="templateArgumentBase">
     <xs:annotation>
       <xs:documentation>
-        Base type for template arguments. Contains only the name of the argument
+        Base type for template arguments. Contains only the name of the argument.
       </xs:documentation>
     </xs:annotation>
     <xs:attribute name="name" type="xs:string" use="required">
@@ -323,7 +336,7 @@
   <xs:complexType name="templateArgumentDefinition">
     <xs:annotation>
       <xs:documentation>
-        A single argument definition for the template. It contains informations about the name, short name and help as well as the default value.
+        A single argument definition for the template. It contains information about the name, short name and help as well as the default value.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -389,6 +402,25 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="templateFixedArgumentDefinition">
+    <xs:annotation>
+      <xs:documentation>
+        A fixed argument definition for the template. It contains information about the name and the value.They can not be set from commandline and are not shown in the help.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="templateArgumentBase">
+        <xs:attribute name="value" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              Value to be used as the argument's value.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="templateArgumentInstance">
     <xs:annotation>
       <xs:documentation>
@@ -400,7 +432,7 @@
         <xs:attribute name="value" type="xs:string" use="optional" default="true">
           <xs:annotation>
             <xs:documentation>
-              Value to be used as the arguments value.
+              Value to be used as the argument's value.
               If the argument does not have a value, do not specify this attribute.
             </xs:documentation>
           </xs:annotation>
@@ -431,6 +463,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="excludedForEmptyTemplate" type="xs:boolean" use="optional" default="false">
+	    <xs:annotation>
+		    <xs:documentation>
+		      option to generate projects without code skeletons
+		    </xs:documentation>
+	  </xs:annotation>
+	</xs:attribute>
     <xs:attribute name="template" type="filePath" use="required">
       <xs:annotation>
         <xs:documentation>
@@ -542,6 +581,7 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="excluded" type="xs:boolean" default="false" />
   </xs:complexType>
 
   <xs:complexType name="templateArgumentInstances">
