@@ -52,7 +52,7 @@ namespace PlcNext.Common.Deploy
         {
             if (currentDeployStep.Arguments?.Length != 1)
             {
-                throw new ArgumentException("Each ToolExecutionDeployStep defined in the template has to contain exactly one argument with a unique identifier as name.");
+                throw new FormattableException("Each ToolExecutionDeployStep defined in the template has to contain exactly one argument with a unique identifier as name.");
             }
             string deployStepName = currentDeployStep.Arguments.First().name;
                         
@@ -80,7 +80,7 @@ namespace PlcNext.Common.Deploy
                 string toolname = currentDeployStep.FixedArguments?.Where(argument => argument.name == toolnameArgumentKey)?.Select(argument => argument.value)?.FirstOrDefault();
                 if (toolname == null)
                 {
-                    throw new ArgumentException("Each ToolExecutionDeployStep defined in the template has to contain exactly one fixed argument with name 'toolname'");
+                    throw new FormattableException("Each ToolExecutionDeployStep defined in the template has to contain exactly one fixed argument with name 'toolname'");
                 }
 
                 //try find executable in file-names.xml in template location
@@ -109,7 +109,7 @@ namespace PlcNext.Common.Deploy
                 string tooloptions = currentDeployStep.FixedArguments?.Where(argument => argument.name == tooloptionsArgumentKey)?.Select(argument => argument.value)?.FirstOrDefault();
                 if (tooloptions == null)
                 {
-                    throw new ArgumentException("Each ToolExecutionDeployStep defined in the template has to contain exactly one fixed argument with name 'tooloptions'");
+                    throw new FormattableException("Each ToolExecutionDeployStep defined in the template has to contain exactly one fixed argument with name 'tooloptions'");
                 }
                 string result = templateResolver.Resolve(tooloptions, template)?.TrimEnd();
                 
