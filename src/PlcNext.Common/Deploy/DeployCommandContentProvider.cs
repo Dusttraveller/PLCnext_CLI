@@ -44,7 +44,8 @@ namespace PlcNext.Common.Deploy
                    (key == EntityKeys.InternalDeployPathKey &&
                     TargetEntity.Decorate(owner).HasFullName)||
                    key == EntityKeys.InternalConfigPathKey ||
-                   key == EntityKeys.InternalSigningKey ;
+                   key == EntityKeys.InternalSigningKey ||
+                   key == EntityKeys.InternalManipulateVersionKey;
         }
 
         public override Entity Resolve(Entity owner, string key, bool fallback = false)
@@ -62,6 +63,10 @@ namespace PlcNext.Common.Deploy
                 case EntityKeys.InternalSigningKey:
                     bool signing = GetSigningOption();
                     return owner.Create(key, signing.ToString(), signing);
+                
+                case EntityKeys.InternalManipulateVersionKey:
+                    string manipulatedVersion = GetManipulatedVersion();
+                    return owner.Create(key, manipulatedVersion);
 
                 case Constants.OutputArgumentName:
                 default:
@@ -101,7 +106,18 @@ namespace PlcNext.Common.Deploy
                 CommandEntity commandOrigin = CommandEntity.Decorate(owner.Origin);
                 VirtualDirectory configDirectory = fileSystem.GetDirectory(commandOrigin.Output, project.Path).Directory("config");
                 return configDirectory;
-            }       
+            }  
+            
+            string GetManipulatedVersion()
+            {
+                Entity project = owner.Root;
+                CommandEntity command = CommandEntity.Decorate(owner.Origin);
+                if (command.IsCommandArgumentSpecified(Constants.ManipulatedVersionArgumentKey))
+                {
+                    return command.GetSingleValueArgument(Constants.ManipulatedVersionArgumentKey);
+                }
+                return string.Empty;
+            }
 
             bool GetSigningOption()
             {

@@ -118,6 +118,7 @@ namespace PlcNext.Common.Tools
         public const string InternalPasswordKey = "__internalsigningpassword__";
         public const string InternalTimestampConfigKey = "__internaltimestampconfigpath__";
         public const string ExcludeFilesKey = "excludefiles";
+        public const string InternalManipulateVersionKey = "__internalmanipulateversion__";
 
         //CMakeBuildContentProvider
         public const string BuildTypeKey = "buildtype";

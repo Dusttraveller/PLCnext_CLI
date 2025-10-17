@@ -283,11 +283,25 @@ namespace PlcNext.Common.Build
                     {
                         source.CopyTo(destination);
                     }
+                    
+                    string version = null;
+#pragma warning disable CA1031 // Do not catch general exception types
+                    try
+                    {
+                        version = deployEntity[EntityKeys.InternalManipulateVersionKey].Value<string>();
+                    }
+                    catch (Exception) 
+                    {
+                        // if error during fetching of manipulated version just use target.EngineerVersion
+                    }
+#pragma warning restore CA1031 // Do not catch general exception types
+                    version = string.IsNullOrEmpty(version) ? target.EngineerVersion : version;
+
                     writer.WriteLine(string.Format(CultureInfo.InvariantCulture,
                                                    Constants.PlcnextNativeLibraryOptionPattern,
                                                    copiedLibrary.Parent.FullName,
                                                    target.Name,
-                                                   target.EngineerVersion,
+                                                   version,
                                                    guidFactory.Create().ToString("D", CultureInfo.InvariantCulture),
                                                    target.ShortFullName.Replace(",", "_", StringComparison.Ordinal)));
                 }

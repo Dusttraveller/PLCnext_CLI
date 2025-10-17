@@ -75,6 +75,7 @@ namespace PlcNext.Common.Tools
         public const string noTimestampArgumentKey = "notimestamp";
         public const string passwordArgumentKey = "password";
         public const string timestampConfiguration = "timestampconfiguration";
+        public const string ManipulatedVersionArgumentKey = "manipulateversion";
 
         //file names
         public const string PublicKeyFileName = "public_cli_repository_key.xml";
