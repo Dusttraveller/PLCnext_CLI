@@ -441,7 +441,12 @@ namespace Test.PlcNext.Tools.Abstractions.Mocked
             {
                 parts = parts.Skip(1).ToArray();
             }
-            VirtualDirectory directory = parts.Take(parts.Length - 1)
+
+            string[] directoryParts = parts.Take(parts.Length - 1).ToArray();
+            //VirtualDirectory a = (VirtualDirectory)directoryContents[rootDirectory].FirstOrDefault(e => e.Name == directoryParts[0]);
+            //var a = directoryContents[rootDirectory];
+
+            VirtualDirectory directory = directoryParts
                                               .Aggregate(rootDirectory,
                                                          (current, part) =>
                                                              current != null

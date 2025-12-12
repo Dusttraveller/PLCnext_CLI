@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using PlcNext.Common.Tools;
 using PlcNext.Common.Tools.FileSystem;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +38,23 @@ namespace PlcNext.Common.Project
             if (!string.IsNullOrEmpty(SolutionVersion) 
                 && !string.IsNullOrEmpty(EngineerVersion))
             {
-                throw new DeployArgumentsException();
+                throw new DeployArgumentsException(nameof(SolutionVersion), nameof(EngineerVersion));
             }
+
+            if (Value == null) return;
+
+            if (!string.IsNullOrEmpty(Value.PublicKey)
+                && !string.IsNullOrEmpty(Value.SigningCertificate))
+            {
+                throw new DeployArgumentsException(nameof(Value.PublicKey), nameof(Value.SigningCertificate));
+            }
+
+            if (Value.CertificateChain != null && Value.CertificateChain.Any()
+                && Value.Certificates != null && Value.Certificates.Any())
+            {
+                throw new DeployArgumentsException(nameof(Value.CertificateChain), nameof(Value.Certificates));
+            }
+                
         }
 
         public bool IsPersistent => configurationFile != null;
@@ -50,7 +66,7 @@ namespace PlcNext.Common.Project
             {
                 if (!string.IsNullOrEmpty(Value.SolutionVersion))
                 {
-                    throw new DeployArgumentsException();
+                    throw new DeployArgumentsException(nameof(SolutionVersion), nameof(EngineerVersion));
                 }
                 Value.EngineerVersion = value;
             }
@@ -63,7 +79,7 @@ namespace PlcNext.Common.Project
             {
                 if (!string.IsNullOrEmpty(Value.EngineerVersion))
                 {
-                    throw new DeployArgumentsException();
+                    throw new DeployArgumentsException(nameof(SolutionVersion), nameof(EngineerVersion));
                 }
                 Value.SolutionVersion = value;
             }
@@ -138,21 +154,31 @@ namespace PlcNext.Common.Project
             }
         }
 
-        public string PublicKey
+        public string SigningCertificate
         {
-            get => Value.PublicKey;
+            get => Value.SigningCertificate ?? Value.PublicKey;
             set
             {
-                Value.PublicKey = value;
+                if (Value.PublicKey != null)
+                {
+                    throw new FormattableException($"{nameof(Value.PublicKey)} and " +
+                        $"{nameof(Value.SigningCertificate)} cannot both have a value.");
+                }
+                Value.SigningCertificate = value;
             }
         }
 
-        public IEnumerable<string> Certificates
+        public IEnumerable<string> CertificateChain
         {
-            get => Value.Certificates ?? Enumerable.Empty<string>();
+            get => Value.CertificateChain ?? Value.Certificates ?? Enumerable.Empty<string>();
             set
             {
-                Value.Certificates = value.ToArray();
+                if (Value.Certificates != null && Value.Certificates.Any())
+                {
+                    throw new FormattableException($"{nameof(Value.Certificates)} and " +
+                        $"{nameof(Value.CertificateChain)} cannot both have a value.");
+                }
+                Value.CertificateChain = value.ToArray();
             }
         }
 

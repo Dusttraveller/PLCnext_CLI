@@ -141,8 +141,8 @@ namespace PlcNext.Common.Deploy
                 {
                     if (command.IsCommandArgumentSpecified(Constants.pkcs12ArgumentKey) ||
                         command.IsCommandArgumentSpecified(Constants.privateKeyArgumentKey) ||
-                        command.IsCommandArgumentSpecified(Constants.publicKeyArgumentKey) ||
-                        command.IsCommandArgumentSpecified(Constants.certificatesArgumentKey) ||
+                        command.IsCommandArgumentSpecified(Constants.signingCertificateArgumentKey) ||
+                        command.IsCommandArgumentSpecified(Constants.certificateChainArgumentKey) ||
                         command.GetBoolValueArgument(Constants.timestampArgumentKey) == true ||
                         command.GetBoolValueArgument(Constants.noTimestampArgumentKey) == true ||
                         command.IsCommandArgumentSpecified(Constants.passwordArgumentKey) ||
@@ -153,14 +153,16 @@ namespace PlcNext.Common.Deploy
 
                     if (!string.IsNullOrEmpty(config.PKCS12) ||
                         !string.IsNullOrEmpty(config.PrivateKey) ||
-                        !string.IsNullOrEmpty(config.PublicKey) ||
-                        (config.Certificates != null && config.Certificates.Any()) ||
+                        !string.IsNullOrEmpty(config.SigningCertificate) ||
+                        (config.CertificateChain != null && config.CertificateChain.Any()) ||
                         config.Timestamp == true ||
                         config.NoTimestamp == true ||
                         !string.IsNullOrEmpty(config.TimestampConfiguration))
                     {
                         userInterface.WriteInformation("Signing was not requested but at least one of the following arguments is specified in the configuration: " +
-                            "pkcs12, privatekey, publickey, certificates, timestamp, notimestamp, timestampconfiguration");
+                            $"{Constants.pkcs12ArgumentKey}, {Constants.privateKeyArgumentKey}, {Constants.signingCertificateArgumentKey}" +
+                            $", {Constants.certificateChainArgumentKey}, {Constants.timestampArgumentKey}, {Constants.noTimestampArgumentKey}" +
+                            $", {Constants.timestampConfiguration}");
                     }
 
                     return false;
@@ -172,11 +174,11 @@ namespace PlcNext.Common.Deploy
                     if (command.IsCommandArgumentSpecified(Constants.pkcs12ArgumentKey))
                     {
                         if (command.IsCommandArgumentSpecified(Constants.privateKeyArgumentKey) ||
-                            command.IsCommandArgumentSpecified(Constants.publicKeyArgumentKey) ||
-                            command.IsCommandArgumentSpecified(Constants.certificatesArgumentKey) ||
+                            command.IsCommandArgumentSpecified(Constants.signingCertificateArgumentKey) ||
+                            command.IsCommandArgumentSpecified(Constants.certificateChainArgumentKey) ||
                             (config.IsPersistent && (!string.IsNullOrEmpty(config.PrivateKey) ||
-                                                     !string.IsNullOrEmpty(config.PublicKey) ||
-                                                     (config.Certificates != null && config.Certificates.Any()))
+                                                     !string.IsNullOrEmpty(config.SigningCertificate) ||
+                                                     (config.CertificateChain != null && config.CertificateChain.Any()))
                             ))
                         {
                             throw new SignOptionWrongCombinationException("PKCS#12", "PEM");
@@ -193,11 +195,11 @@ namespace PlcNext.Common.Deploy
                         if (config.IsPersistent && !string.IsNullOrEmpty(config.PKCS12))
                         {
                             if (command.IsCommandArgumentSpecified(Constants.privateKeyArgumentKey) ||
-                            command.IsCommandArgumentSpecified(Constants.publicKeyArgumentKey) ||
-                            command.IsCommandArgumentSpecified(Constants.certificatesArgumentKey) ||
+                            command.IsCommandArgumentSpecified(Constants.signingCertificateArgumentKey) ||
+                            command.IsCommandArgumentSpecified(Constants.certificateChainArgumentKey) ||
                             (config.IsPersistent && (!string.IsNullOrEmpty(config.PrivateKey) ||
-                                                     !string.IsNullOrEmpty(config.PublicKey) ||
-                                                     (config.Certificates != null && config.Certificates.Any()))
+                                                     !string.IsNullOrEmpty(config.SigningCertificate) ||
+                                                     (config.CertificateChain != null && config.CertificateChain.Any()))
                             ))
                             {
                                 throw new SignOptionWrongCombinationException("PKCS#12", "PEM files");
@@ -210,7 +212,7 @@ namespace PlcNext.Common.Deploy
                             //create entity without value
                             owner.AddEntity(owner.Create(Constants.pkcs12ArgumentKey), EntityKeys.InternalPKCS12Key);
 
-                            //pkcs12 is not set, privatekey publickey and certificates must be set
+                            //pkcs12 is not set, privatekey and signingcertificate must be set
 
                             if (command.IsCommandArgumentSpecified(Constants.privateKeyArgumentKey))
                             {
@@ -229,15 +231,15 @@ namespace PlcNext.Common.Deploy
                                 }
                             }
 
-                            if (command.IsCommandArgumentSpecified(Constants.publicKeyArgumentKey))
+                            if (command.IsCommandArgumentSpecified(Constants.signingCertificateArgumentKey))
                             {
-                                owner.AddEntity(owner.Create(Constants.publicKeyArgumentKey, command.GetSingleValueArgument(Constants.publicKeyArgumentKey)), EntityKeys.InternalPublicKeyKey);
+                                owner.AddEntity(owner.Create(Constants.signingCertificateArgumentKey, command.GetSingleValueArgument(Constants.signingCertificateArgumentKey)), EntityKeys.InternalSigningCertKey);
                             }
                             else
                             {
-                                if (config.IsPersistent && !string.IsNullOrEmpty(config.PublicKey))
+                                if (config.IsPersistent && !string.IsNullOrEmpty(config.SigningCertificate))
                                 {
-                                    owner.AddEntity(owner.Create(Constants.publicKeyArgumentKey, config.PublicKey), EntityKeys.InternalPublicKeyKey);
+                                    owner.AddEntity(owner.Create(Constants.signingCertificateArgumentKey, config.SigningCertificate), EntityKeys.InternalSigningCertKey);
                                 }
                                 else
                                 {
@@ -246,19 +248,20 @@ namespace PlcNext.Common.Deploy
                             }
 
 
-                            if (command.IsCommandArgumentSpecified(Constants.certificatesArgumentKey))
+                            if (command.IsCommandArgumentSpecified(Constants.certificateChainArgumentKey))
                             {
-                                owner.AddEntity(owner.Create(Constants.certificatesArgumentKey, command.GetMultiValueArgument(Constants.certificatesArgumentKey)), EntityKeys.InternalCertificatesKey);
+                                owner.AddEntity(owner.Create(Constants.certificateChainArgumentKey, command.GetMultiValueArgument(Constants.certificateChainArgumentKey)), EntityKeys.InternalCertificateChainKey);
                             }
                             else
                             {
-                                if (config.IsPersistent && config.Certificates != null && config.Certificates.Any())
+                                if (config.IsPersistent && config.CertificateChain != null && config.CertificateChain.Any())
                                 {
-                                    owner.AddEntity(owner.Create(Constants.certificatesArgumentKey, config.Certificates), EntityKeys.InternalCertificatesKey);
+                                    owner.AddEntity(owner.Create(Constants.certificateChainArgumentKey, config.CertificateChain), EntityKeys.InternalCertificateChainKey);
                                 }
                                 else
                                 {
-                                    throw new SignOptionMissingKeyFilesException();
+                                    // create empty entity because optional argument was not specified
+                                    owner.AddEntity(owner.Create(Constants.certificateChainArgumentKey), EntityKeys.InternalCertificateChainKey);
                                 }
                             }
                         }

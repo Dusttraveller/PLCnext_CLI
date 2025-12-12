@@ -136,6 +136,11 @@ namespace Test.PlcNext.SystemTests.StepDefinitions
             ScenarioContext.CreateFile(relativeFilePath);
         }
 
+		protected void Given_is_that_the_content_of_FILE_overwrites_FILE(string fileContent, string destination)
+		{
+			ScenarioContext.LoadFileContentInto(fileContent, destination);
+        }
+
         protected void Given_cmake_returns_a_code_model_with_the_following_libraries(string projectName, params string[] libraries)
         {
             ScenarioContext.SetCodeModel(projectName, libraries);

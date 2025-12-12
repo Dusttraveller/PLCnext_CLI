@@ -7,14 +7,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Autofac;
 using CSharpx;
 using Mono.Cecil;
@@ -23,10 +15,21 @@ using Newtonsoft.Json.Linq;
 using NSubstitute;
 using PlcNext.Common.CommandLine;
 using PlcNext.Common.MetaData;
+using PlcNext.Common.Templates.Description;
 using PlcNext.Common.Tools;
 using PlcNext.Common.Tools.FileSystem;
 using PlcNext.Common.Tools.UI;
+using SharpCompress.Common;
 using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Pipes;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Test.PlcNext.SystemTests.Features;
 using Test.PlcNext.Tools;
 using Test.PlcNext.Tools.Abstractions;
@@ -1225,6 +1228,15 @@ namespace Test.PlcNext.SystemTests.Tools
 
         }
 
+        public void LoadFileContentInto(string fileContent, string destinationFile)
+        {
+            string path = Path.Combine(fileSystemAbstraction.CurrentDirectory.FullName, destinationFile);
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Test.PlcNext.Deployment.{fileContent}"))
+            {
+                fileSystemAbstraction.Load(stream, path);
+            }
+        }
+
         public async Task UpdateCli(string file)
         {
             string path = Path.Combine(fileSystemAbstraction.CurrentDirectory.FullName, file);
@@ -1518,52 +1530,52 @@ namespace Test.PlcNext.SystemTests.Tools
 
             if (deployArgs.Sign == true)
             {
-                args.Add("--sign");
+                args.Add("--" + Constants.SignArgumentKey);
             }
 
             if (!string.IsNullOrEmpty(deployArgs.PKCS12))
             {
-                args.Add("--pkcs12");
+                args.Add("--" + Constants.pkcs12ArgumentKey);
                 args.Add(deployArgs.PKCS12);
             }
 
             if (!string.IsNullOrEmpty(deployArgs.PrivateKey))
             {
-                args.Add("--privatekey");
+                args.Add("--" + Constants.privateKeyArgumentKey);
                 args.Add(deployArgs.PrivateKey);
             }
 
-            if (!string.IsNullOrEmpty(deployArgs.PublicKey))
+            if (!string.IsNullOrEmpty(deployArgs.SigningCertificate))
             {
-                args.Add("--publickey");
-                args.Add(deployArgs.PublicKey);
+                args.Add("--" + Constants.signingCertificateArgumentKey);
+                args.Add(deployArgs.SigningCertificate);
             }
 
-            if (deployArgs.Certificates != null && deployArgs.Certificates.Any())
+            if (deployArgs.CertificateChain != null && deployArgs.CertificateChain.Any())
             {
-                args.Add("--certificates");
-                args.Add(string.Join(",", deployArgs.Certificates));
+                args.Add("--" + Constants.certificateChainArgumentKey);
+                args.Add(string.Join(",", deployArgs.CertificateChain));
             }
 
             if (deployArgs.Password != null)
             {
-                args.Add("--password");
+                args.Add("--" + Constants.passwordArgumentKey);
                 args.Add(deployArgs.Password);
             }
 
             if (deployArgs.Timestamp)
             {
-                args.Add("--timestamp");
+                args.Add("--" + Constants.timestampArgumentKey);
             }
 
             if (deployArgs.NoTimestamp)
             {
-                args.Add("--notimestamp");
+                args.Add("--" + Constants.noTimestampArgumentKey);
             }
 
             if (!string.IsNullOrEmpty(deployArgs.TimestampConfiguration))
             {
-                args.Add("--timestampconfiguration");
+                args.Add("--" + Constants.timestampConfiguration);
                 args.Add(deployArgs.TimestampConfiguration);
             }
 
@@ -1660,6 +1672,32 @@ namespace Test.PlcNext.SystemTests.Tools
         public void FindTargetOnExplore(string name, string version)
         {
             sdkExplorerAbstraction.FindTargetOnExplore(name, version);
+        }
+
+        public void CheckTemplateContainsSigningOptions(string projectTypeFolder)
+        {
+            string path = Path.GetFullPath(
+                                Path.Combine("..", "Templates", projectTypeFolder, "TemplateDescription.xml"), 
+                                fileSystemAbstraction.CurrentDirectory.FullName);
+            fileSystemAbstraction.FileExists(path).ShouldBeTrue($"file {path} was expected to exist.");
+
+            using Stream fileStream = fileSystemAbstraction.Open(path);
+            XmlSerializer serializer = new XmlSerializer(typeof(TemplateDescription));
+            TemplateDescription template = (TemplateDescription)serializer.Deserialize(fileStream);
+            templateDeployPostStep libraryBuilderDeployPostStep = template.DeployPostStep.Where(postStep => postStep.identifier.EndsWith("LibraryBuilderDeployStep")).FirstOrDefault();
+            libraryBuilderDeployPostStep.ShouldNotBeNull($"libraryBuilderDeployPostStep should be inside template {projectTypeFolder}");
+
+            IEnumerable<string> availableArgumentNames = libraryBuilderDeployPostStep.Arguments.Select(argument => argument.name);
+
+            availableArgumentNames.ShouldContain(Constants.SignArgumentKey);
+            availableArgumentNames.ShouldContain(Constants.pkcs12ArgumentKey);
+            availableArgumentNames.ShouldContain(Constants.privateKeyArgumentKey);
+            availableArgumentNames.ShouldContain(Constants.signingCertificateArgumentKey);
+            availableArgumentNames.ShouldContain(Constants.certificateChainArgumentKey);
+            availableArgumentNames.ShouldContain(Constants.timestampArgumentKey);
+            availableArgumentNames.ShouldContain(Constants.noTimestampArgumentKey);
+            availableArgumentNames.ShouldContain(Constants.passwordArgumentKey);
+            availableArgumentNames.ShouldContain(Constants.timestampConfiguration);
         }
     }
 }

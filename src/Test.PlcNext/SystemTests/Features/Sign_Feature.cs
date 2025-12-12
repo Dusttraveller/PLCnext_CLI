@@ -68,8 +68,8 @@ namespace Test.PlcNext.SystemTests.Features
                     BuildType = "Debug",
                     Sign = true,
                     PrivateKey = "path/to/file.pem",
-                    PublicKey = "path/to/file.pem",
-                    Certificates = new[] { "path/to/certificate.pem", "path/with space to/other/certificate.pem" },
+                    SigningCertificate = "path/to/file.pem",
+                    CertificateChain = new[] { "path/to/certificate.pem", "path/with space to/other/certificate.pem" },
                     Timestamp = true
                 }),
                 _ => Then_the_deploy_was_executed_without_error(),
@@ -89,12 +89,31 @@ namespace Test.PlcNext.SystemTests.Features
                     BuildType = "Debug",
                     Sign = true,
                     PrivateKey = "path/to/file.pem",
-                    PublicKey = "path/to/file.pem",
-                    Certificates = new[] { "path/to/certificate.pem", "path/with space to/other/certificate.pem" },
+                    SigningCertificate = "path/to/file.pem",
+                    CertificateChain = new[] { "path/to/certificate.pem", "path/with space to/other/certificate.pem" },
                     PKCS12 = "test.p12",
                     NoTimestamp = true
                 }),
                 _ => Then_the_user_was_informed_that_sign_options_are_incorrectly_combined()
+                ).RunAsyncWithTimeout();
+        }
+
+        [Scenario]
+        public async Task Sign_library_with_PEM_files_without_cerificate_chain_throws_no_error()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_the_project("Demo"),
+                _ => Given_is_the_working_directory_PATH("Demo"),
+                _ => When_I_deploy(new DeployCommandArgs
+                {
+                    Targets = new[] { "AXCF2152,19.0.0.12345" },
+                    BuildType = "Debug",
+                    Sign = true,
+                    PrivateKey = "path/to/file.pem",
+                    SigningCertificate = "path/to/file.pem",
+                    NoTimestamp = true
+                }),
+                _ => Then_the_deploy_was_executed_without_error()
                 ).RunAsyncWithTimeout();
         }
 
@@ -118,7 +137,7 @@ namespace Test.PlcNext.SystemTests.Features
         }
 
         [Scenario]
-        public async Task Sign_library_with_config_file()
+        public async Task Sign_library_with_config_file_v1()
         {
             await Runner.AddSteps(
                 _ => Given_is_the_project("ProjectWithConfigFile"),
@@ -149,7 +168,7 @@ namespace Test.PlcNext.SystemTests.Features
         }
 
         [Scenario]
-        public async Task Sign_library_with_config_file_and_option_throws_error()
+        public async Task Sign_library_with_config_file_v1_and_option_throws_error()
         {
             await Runner.AddSteps(
                 _ => Given_is_the_project("ProjectWithConfigFile"),
@@ -165,7 +184,7 @@ namespace Test.PlcNext.SystemTests.Features
         }
 
         [Scenario]
-        public async Task Sign_library_with_config_file_and_timestamp_option_throws_error()
+        public async Task Sign_library_with_config_file_v1_and_timestamp_option_throws_error()
         {
             await Runner.AddSteps(
                 _ => Given_is_the_project("ProjectWithConfigFile"),
@@ -193,6 +212,63 @@ namespace Test.PlcNext.SystemTests.Features
                     PKCS12 = "path/to/file.p12"
                 }),
                 _ => Then_the_user_was_informed_that_a_timestamp_decision_is_mandatory()
+                ).RunAsyncWithTimeout();
+        }
+
+        [Scenario]
+        public async Task Sign_library_with_config_file_v2()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_the_project("ProjectWithConfigFile"),
+                _ => Given_is_that_the_content_of_FILE_overwrites_FILE("ProjectWithConfigFile.PLCnextSettings_v2.xml", "ProjectWithConfigFile/PLCnextSettings.xml"),
+                _ => Given_is_the_working_directory_PATH("ProjectWithConfigFile"),
+                _ => When_I_deploy(new DeployCommandArgs
+                {
+                    Targets = new[] { "AXCF2152,20.6.0.12345" },
+                }),
+                _ => Then_the_deploy_was_executed_without_error(),
+                _ => Then_the_library_was_generated_with_the_following_command_arguments("ProjectWithConfigFileCommandArgs.txt")
+                ).RunAsyncWithTimeout();
+        }
+
+        [Scenario]
+        public async Task Sign_library_with_config_file_v2_with_publickey_and_signingcertificate_throws_error()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_the_project("ProjectWithConfigFile"),
+                _ => Given_is_that_the_content_of_FILE_overwrites_FILE("ProjectWithConfigFile.PLCnextSettings_v2_error.xml", "ProjectWithConfigFile/PLCnextSettings.xml"),
+                _ => Given_is_the_working_directory_PATH("ProjectWithConfigFile"),
+                _ => When_I_deploy(new DeployCommandArgs
+                {
+                    Targets = new[] { "AXCF2152,20.6.0.12345" },
+                }),
+                _ => Then_the_user_was_informed_that_the_deploy_options_are_wrong_combined()
+                ).RunAsyncWithTimeout();
+        }
+
+        [Scenario]
+        public async Task Sign_library_with_config_file_v2_with_certificates_and_certificatechain_throws_error()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_the_project("ProjectWithConfigFile"),
+                _ => Given_is_that_the_content_of_FILE_overwrites_FILE("ProjectWithConfigFile.PLCnextSettings_v2_error2.xml", "ProjectWithConfigFile/PLCnextSettings.xml"),
+                _ => Given_is_the_working_directory_PATH("ProjectWithConfigFile"),
+                _ => When_I_deploy(new DeployCommandArgs
+                {
+                    Targets = new[] { "AXCF2152,20.6.0.12345" },
+                }),
+                _ => Then_the_user_was_informed_that_the_deploy_options_are_wrong_combined()
+                ).RunAsyncWithTimeout();
+        }
+
+        [Scenario]
+        public async Task Project_Template_contains_correct_sign_options()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_an_empty_workspace(),
+                _ => Then_the_template_contains_the_signing_options_for_project_type("ProjectTemplate"),
+                _ => Then_the_template_contains_the_signing_options_for_project_type("AcfProjectTemplate"),
+                _ => Then_the_template_contains_the_signing_options_for_project_type("SharedNativeProjectTemplate")
                 ).RunAsyncWithTimeout();
         }
 

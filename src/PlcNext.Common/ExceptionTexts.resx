@@ -389,7 +389,7 @@
     <value>Could not find the SolutionMappingsFile in the installation directory.</value>
   </data>
   <data name="DeployArgumentsWrongCombined" xml:space="preserve">
-    <value>Solutionversion and Engineerversion cannot be used together.</value>
+    <value>{0} and {1} cannot be used together.</value>
   </data>
   <data name="PortStructureFieldAmbiguous" xml:space="preserve">
     <value>The fields {0} of the type {1} are ambiguous. In types used for ports only non-ambiguous fields should exist.</value>
@@ -413,13 +413,13 @@
     <value>There is more than one entity with name {0}.</value>
   </data>
   <data name="SignOptionMissing" xml:space="preserve">
-    <value>Signing was not requested but at least one of the following arguments is specified: pkcs12, privatekey, publickey, certificates, timestamp, notimestamp, password, timestampconfiguration</value>
+    <value>Signing was not requested but at least one of the following arguments is specified: pkcs12, privatekey, signingcertificate, certificatechain, timestamp, notimestamp, password, timestampconfiguration</value>
   </data>
   <data name="SignOptionWrongCombination" xml:space="preserve">
     <value>Option {0} and {1} cannot be combined.</value>
   </data>
   <data name="SignOptionMissingKeyFiles" xml:space="preserve">
-    <value>Provide either a PKCS#12 file or PEM files for privatekey, publickey and certificates.</value>
+    <value>Provide either a PKCS#12 file or PEM files for privatekey and signingcertificate.</value>
   </data>
   <data name="SignOptionMissingTimestampDecision" xml:space="preserve">
     <value>One of the two options timestamp or notimestamp must be set.</value>

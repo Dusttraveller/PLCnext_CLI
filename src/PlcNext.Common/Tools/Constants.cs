@@ -69,8 +69,8 @@ namespace PlcNext.Common.Tools
         public const string SignArgumentKey = "sign";
         public const string pkcs12ArgumentKey = "pkcs12";
         public const string privateKeyArgumentKey = "privatekey";
-        public const string publicKeyArgumentKey = "publickey";
-        public const string certificatesArgumentKey = "certificates";
+        public const string signingCertificateArgumentKey = "signingcertificate";
+        public const string certificateChainArgumentKey = "certificatechain";
         public const string timestampArgumentKey = "timestamp";
         public const string noTimestampArgumentKey = "notimestamp";
         public const string passwordArgumentKey = "password";
@@ -144,11 +144,11 @@ namespace PlcNext.Common.Tools
         public const string CertificateContainerPattern = "/seccertificatecontainer {0}";
         public const string TimestampServerPattern = "/sectimestamp {0}";
         public const string TimestampConfigurationPattern = "/sectimestampconfiguration {0}";
-        public const string PublicKeyPattern = "/secpublickey {0}";
+        public const string signingCertificatePattern = "/secsigningcertificate {0}";
         public const string PrivateKeyPattern = "/secprivatekey {0}";
         public const string PasswordPattern = "/secpw {0}";
         //0: list of filepaths, separated by ','
-        public const string CertificatesPattern = "/seccertificates {0}";
+        public const string CertificateChainPattern = "/seccertificatechain {0}";
 
 
         //Output formatter

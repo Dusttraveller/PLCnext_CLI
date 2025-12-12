@@ -114,7 +114,7 @@ namespace PlcNext.Common.Project
                 }
                 catch (Exception e)
                 {
-                    executionContext.WriteVerbose($"Error while trying to parse project configuration {file.FullName}." +
+                    executionContext.WriteWarning($"Error while trying to parse project configuration {file.FullName}." +
                                                           $"{Environment.NewLine}{e}");
                 }
 
@@ -131,7 +131,7 @@ namespace PlcNext.Common.Project
                 {
                     if (command.IsCommandArgumentSpecified(Constants.SolutionVersionArgumentKey))
                     {
-                        throw new DeployArgumentsException();
+                        throw new DeployArgumentsException(Constants.SolutionVersionArgumentKey, Constants.EngineerVersionArgumentKey);
                     }
                     string value = command.GetSingleValueArgument(Constants.EngineerVersionArgumentKey);
                     project.Configuration.EngineerVersion = value;
@@ -150,7 +150,7 @@ namespace PlcNext.Common.Project
                 {
                     if (command.IsCommandArgumentSpecified(Constants.EngineerVersionArgumentKey))
                     {
-                        throw new DeployArgumentsException();
+                        throw new DeployArgumentsException(Constants.SolutionVersionArgumentKey, Constants.EngineerVersionArgumentKey);
                     }
                     string value = command.GetSingleValueArgument(Constants.SolutionVersionArgumentKey);
                     project.Configuration.SolutionVersion = value;

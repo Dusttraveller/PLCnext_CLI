@@ -38,9 +38,9 @@ namespace PlcNext.Common.Deploy
 
         public string PrivateKeyPath => this[EntityKeys.InternalPrivateKeyKey].Value<string>();
 
-        public string PublicKeyPath => this[EntityKeys.InternalPublicKeyKey].Value<string>();
+        public string SigningCertificatePath => this[EntityKeys.InternalSigningCertKey].Value<string>();
 
-        public IEnumerable<string> CertificatePaths => this[EntityKeys.InternalCertificatesKey].Value<IEnumerable<string>>();
+        public IEnumerable<string> CertificateChainPaths => this[EntityKeys.InternalCertificateChainKey].Value<IEnumerable<string>>();
 
         public bool TimestampFlag => this[EntityKeys.InternalTimestampKey].Value<bool>();
 

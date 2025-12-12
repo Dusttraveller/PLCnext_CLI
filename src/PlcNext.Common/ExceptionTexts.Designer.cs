@@ -187,7 +187,7 @@ namespace PlcNext.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Solutionversion and Engineerversion cannot be used together..
+        ///   Looks up a localized string similar to {0} and {1} cannot be used together..
         /// </summary>
         internal static string DeployArgumentsWrongCombined {
             get {
@@ -709,7 +709,7 @@ namespace PlcNext.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Signing was not requested but at least one of the following arguments is specified: pkcs12, privatekey, publickey, certificates, timestamp, notimestamp, password, timestampconfiguration.
+        ///   Looks up a localized string similar to Signing was not requested but at least one of the following arguments is specified: pkcs12, privatekey, signingcertificate, certificatechain, timestamp, notimestamp, password, timestampconfiguration.
         /// </summary>
         internal static string SignOptionMissing {
             get {
@@ -718,7 +718,7 @@ namespace PlcNext.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Provide either a PKCS#12 file or PEM files for privatekey, publickey and certificates..
+        ///   Looks up a localized string similar to Provide either a PKCS#12 file or PEM files for privatekey and signingcertificate..
         /// </summary>
         internal static string SignOptionMissingKeyFiles {
             get {

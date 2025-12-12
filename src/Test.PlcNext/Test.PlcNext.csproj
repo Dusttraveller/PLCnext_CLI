@@ -199,6 +199,9 @@
     <None Remove="Deployment\ProjectWithConfigFile\intermediate\config\ProjectWithConfigFileComponent\ProjectWithConfigFileProgram\ProjectWithConfigFileProgram.progmeta" />
     <None Remove="Deployment\ProjectWithConfigFile\intermediate\config\ProjectWithConfigFileDataTypes.dt" />
     <None Remove="Deployment\ProjectWithConfigFile\PLCnextSettings.xml" />
+    <None Remove="Deployment\ProjectWithConfigFile\PLCnextSettings_v2.xml" />
+    <None Remove="Deployment\ProjectWithConfigFile\PLCnextSettings_v2_error.xml" />
+    <None Remove="Deployment\ProjectWithConfigFile\PLCnextSettings_v2_error2.xml" />
     <None Remove="Deployment\ProjectWithConfigFile\src\ProjectWithConfigFileComponent.cpp" />
     <None Remove="Deployment\ProjectWithConfigFile\src\ProjectWithConfigFileComponent.hpp" />
     <None Remove="Deployment\ProjectWithConfigFile\src\ProjectWithConfigFileProgram.cpp" />
@@ -421,6 +424,9 @@
     <EmbeddedResource Include="Deployment\ProjectWithConfigFile\intermediate\config\ProjectWithConfigFileComponent\ProjectWithConfigFileProgram\ProjectWithConfigFileProgram.progmeta" />
     <EmbeddedResource Include="Deployment\ProjectWithConfigFile\intermediate\config\ProjectWithConfigFileDataTypes.dt" />
     <EmbeddedResource Include="Deployment\ProjectWithConfigFile\PLCnextSettings.xml" />
+    <EmbeddedResource Include="Deployment\ProjectWithConfigFile\PLCnextSettings_v2.xml" />
+    <EmbeddedResource Include="Deployment\ProjectWithConfigFile\PLCnextSettings_v2_error.xml" />
+    <EmbeddedResource Include="Deployment\ProjectWithConfigFile\PLCnextSettings_v2_error2.xml" />
     <EmbeddedResource Include="Deployment\ProjectWithConfigFile\src\ProjectWithConfigFileComponent.cpp" />
     <EmbeddedResource Include="Deployment\ProjectWithConfigFile\src\ProjectWithConfigFileComponent.hpp" />
     <EmbeddedResource Include="Deployment\ProjectWithConfigFile\src\ProjectWithConfigFileProgram.cpp" />

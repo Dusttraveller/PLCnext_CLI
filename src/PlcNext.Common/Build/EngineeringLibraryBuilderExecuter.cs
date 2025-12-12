@@ -432,14 +432,19 @@ namespace PlcNext.Common.Build
                                                    Constants.PrivateKeyPattern,
                                                    $"\"{deployEntity.PrivateKeyPath}\""));
                     executionContext.WriteInformation("\tprivatekey: " + deployEntity.PrivateKeyPath);
+
                     writer.WriteLine(string.Format(CultureInfo.InvariantCulture,
-                                                   Constants.PublicKeyPattern,
-                                                   $"\"{deployEntity.PublicKeyPath}\""));
-                    executionContext.WriteInformation("\tpublickey: " + deployEntity.PublicKeyPath);
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture,
-                                                   Constants.CertificatesPattern,
-                                                   $"\"{string.Join(",", deployEntity.CertificatePaths)}\""));
-                    executionContext.WriteInformation("\tcertificates: " + $"\"{string.Join(",", deployEntity.CertificatePaths)}\"");
+                                                   Constants.signingCertificatePattern,
+                                                   $"\"{deployEntity.SigningCertificatePath}\""));
+                    executionContext.WriteInformation("\tsigningcertificate: " + deployEntity.SigningCertificatePath);
+
+                    if (deployEntity.CertificateChainPaths != null && deployEntity.CertificateChainPaths.Any())
+                    {
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture,
+                                                       Constants.CertificateChainPattern,
+                                                       $"\"{string.Join(",", deployEntity.CertificateChainPaths)}\""));
+                        executionContext.WriteInformation("\tcertificatechain: " + $"\"{string.Join(",", deployEntity.CertificateChainPaths)}\"");
+                    }
                 }
                 if (deployEntity.TimestampFlag == false)
                 {

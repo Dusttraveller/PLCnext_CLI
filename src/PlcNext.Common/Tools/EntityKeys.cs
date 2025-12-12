@@ -112,8 +112,8 @@ namespace PlcNext.Common.Tools
         public const string InternalSigningKey = "__internalsigningrequested__";
         public const string InternalPKCS12Key = "__internalpkcs12path__";
         public const string InternalPrivateKeyKey = "__internalprivatekeypath__";
-        public const string InternalPublicKeyKey = "__internalpublickeypath__";
-        public const string InternalCertificatesKey = "__internalcertificatespath__";
+        public const string InternalSigningCertKey = "__internalsigningcertpath__";
+        public const string InternalCertificateChainKey = "__internalcertificatechainpath__";
         public const string InternalTimestampKey = "__internaltimestamprequested__";
         public const string InternalPasswordKey = "__internalsigningpassword__";
         public const string InternalTimestampConfigKey = "__internaltimestampconfigpath__";

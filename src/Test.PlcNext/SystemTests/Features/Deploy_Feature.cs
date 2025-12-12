@@ -771,9 +771,9 @@ namespace Test.PlcNext.SystemTests.Features
 
         public string PrivateKey { get; internal set; }
 
-        public string PublicKey { get; internal set; }
+        public string SigningCertificate { get; internal set; }
 
-        public IEnumerable<string> Certificates { get; internal set; }
+        public IEnumerable<string> CertificateChain { get; internal set; }
 
         public string Password { get; internal set; }
 

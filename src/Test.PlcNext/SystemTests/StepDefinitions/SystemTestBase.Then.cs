@@ -635,5 +635,10 @@ namespace Test.PlcNext.SystemTests.StepDefinitions
         {
             ScenarioContext.CheckUserInformedOfError(typeof(SignOptionMissingTimestampDecisionException));
         }
+
+        protected void Then_the_template_contains_the_signing_options_for_project_type(string projectTypeFolder)
+        {
+            ScenarioContext.CheckTemplateContainsSigningOptions(projectTypeFolder);
+        }
     }
 }

@@ -8,12 +8,14 @@
 #endregion
 
 using PlcNext.Common.Tools;
+using System.Globalization;
 
 namespace PlcNext.Common.Project
 {
     internal class DeployArgumentsException : FormattableException
     {
-        public DeployArgumentsException() : base(ExceptionTexts.DeployArgumentsWrongCombined)
+        public DeployArgumentsException(string arg1, string arg2) 
+            : base(string.Format(CultureInfo.InvariantCulture, ExceptionTexts.DeployArgumentsWrongCombined, arg1, arg2))
         {
 
         }
