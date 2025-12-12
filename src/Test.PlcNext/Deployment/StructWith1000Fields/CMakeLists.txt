@@ -62,11 +62,9 @@ target_link_libraries(StructWith1000Fields PRIVATE ArpDevice ArpProgramming)
 
 ################# install ############################################################
 
-string(REGEX REPLACE "^.*\\(([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+).*$" "\\1" _ARP_SHORT_DEVICE_VERSION ${ARP_DEVICE_VERSION})
 install(TARGETS StructWith1000Fields
-    LIBRARY DESTINATION ${ARP_DEVICE}_${_ARP_SHORT_DEVICE_VERSION}/$<CONFIG>/lib
-    ARCHIVE DESTINATION ${ARP_DEVICE}_${_ARP_SHORT_DEVICE_VERSION}/$<CONFIG>/lib
-    RUNTIME DESTINATION ${ARP_DEVICE}_${_ARP_SHORT_DEVICE_VERSION}/$<CONFIG>/bin)
-unset(_ARP_SHORT_DEVICE_VERSION)
+    LIBRARY DESTINATION ${ARP_DEVICE}_${ARP_DEVICE_SHORT_VERSION}/$<CONFIG>/lib
+    ARCHIVE DESTINATION ${ARP_DEVICE}_${ARP_DEVICE_SHORT_VERSION}/$<CONFIG>/lib
+    RUNTIME DESTINATION ${ARP_DEVICE}_${ARP_DEVICE_SHORT_VERSION}/$<CONFIG>/bin)
 
 #######################################################################################

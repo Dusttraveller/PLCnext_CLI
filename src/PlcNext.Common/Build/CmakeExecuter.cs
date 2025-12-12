@@ -39,6 +39,8 @@ namespace PlcNext.Common.Build
         private const string BuildTypeOption = "-DCMAKE_BUILD_TYPE=%BUILD_TYPE%";
         private const string DeviceOption = "-DARP_DEVICE=%TARGET%";
         private const string DeviceVersionOption = "-DARP_DEVICE_VERSION=%VERSION%";
+        private const string DeviceShortVersionOption = "-DARP_DEVICE_SHORT_VERSION=%SHORT_VERSION%";
+        private const string DeviceShortVersionWithBuildNumberOption = "-DARP_DEVICE_SHORT_VERSION_BUILD=%SHORT_VERSION_BUILD%";
         private const string ToolchainRootOption = "-DARP_TOOLCHAIN_ROOT=\"%SDK_ROOT%\"";
         private const string StagingPrefixOption = "-DCMAKE_STAGING_PREFIX=\"%STAGING_PREFIX%\"";
         private const string MakeFileOption = "-DCMAKE_MAKE_PROGRAM=%MAKE_EXE%";
@@ -228,11 +230,14 @@ namespace PlcNext.Common.Build
                     !buildInformation.NoConfigure)
                 {
                     string cmakeCommand = GenerateCmakeCommand(buildInformation.Target.Name,
-                                                               buildInformation.Target.LongVersion);
-                    
+                        buildInformation.Target.LongVersion,
+                        buildInformation.Target.ShortVersion,
+                        buildInformation.Target.Version);
+
                     executionContext.WriteInformation("Configuring CMake...", showMessagesToUser);
 
-                    bool result = CallCmake(cmakeFolder, cmakeCommand, showMessagesToUser, throwOnError, showWarningsToUser);
+                    bool result = CallCmake(cmakeFolder, cmakeCommand, showMessagesToUser, throwOnError,
+                        showWarningsToUser);
 
                     AddTimestamp();
 
@@ -249,7 +254,7 @@ namespace PlcNext.Common.Build
 
                 return true;
 
-                string GenerateCmakeCommand(string target, string version)
+                string GenerateCmakeCommand(string target, string completeVersion, string shortVersion, string shortVersionWithBuild)
                 {
                     List<string> commandParts = new List<string>();
                     string sdkRoot = buildInformation.SdkInformation.Root.FullName.Replace("\\", "/", StringComparison.Ordinal);
@@ -271,7 +276,15 @@ namespace PlcNext.Common.Build
                     }
                     if (!buildInformation.BuildProperties.Contains("-DARP_DEVICE_VERSION=", StringComparison.Ordinal))
                     {
-                        commandParts.Add(DeviceVersionOption.Replace("%VERSION%", $"\"{version}\"", StringComparison.Ordinal));
+                        commandParts.Add(DeviceVersionOption.Replace("%VERSION%", $"\"{completeVersion}\"", StringComparison.Ordinal));
+                    }
+                    if (!buildInformation.BuildProperties.Contains("-DARP_DEVICE_SHORT_VERSION=", StringComparison.Ordinal))
+                    {
+                        commandParts.Add(DeviceShortVersionOption.Replace("%SHORT_VERSION%", $"\"{shortVersion}\"", StringComparison.Ordinal));
+                    }
+                    if (!buildInformation.BuildProperties.Contains("-DARP_DEVICE_SHORT_VERSION_BUILD=", StringComparison.Ordinal))
+                    {
+                        commandParts.Add(DeviceShortVersionWithBuildNumberOption.Replace("%SHORT_VERSION_BUILD%", $"\"{shortVersionWithBuild}\"", StringComparison.Ordinal));
                     }
                     if (!buildInformation.BuildProperties.Contains("-DCMAKE_STAGING_PREFIX=", StringComparison.Ordinal))
                     {
