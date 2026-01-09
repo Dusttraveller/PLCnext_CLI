@@ -180,6 +180,11 @@ namespace Test.PlcNext.SystemTests.StepDefinitions
             ScenarioContext.CheckTypemetaFile(null);
         }
 
+        protected void Then_the_generated_meta_files_are_compatible_to_the_schema_file()
+        {
+            ScenarioContext.CheckMetaFilesAreCompatibleToSchema();
+        }
+
         protected void Then_the_error_is_shown(ErrorInformation error)
         {
             ScenarioContext.CheckForError(error);

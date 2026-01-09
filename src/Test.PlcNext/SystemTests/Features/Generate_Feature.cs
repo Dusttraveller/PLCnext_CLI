@@ -1151,6 +1151,28 @@ namespace Test.PlcNext.SystemTests.Features
                                                                                  }))
                 ).RunAsyncWithTimeout();
         }
+
+        [Scenario]
+        public async Task Generated_meta_files_have_newest_schema_version()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_an_empty_workspace(),
+                _ => When_I_create_a_new_project_with_name("NewProject"),
+                _ => When_I_generate_all_metafiles(),
+                _ => Then_the_generated_meta_files_are_compatible_to_the_schema_file()
+                ).RunAsyncWithTimeout();
+        }
+
+        [Scenario]
+        public async Task Generated_acf_meta_files_have_newest_schema_version()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_an_empty_workspace(),
+                _ => When_I_create_a_new_acfproject_with_name("NewProject"),
+                _ => When_I_generate_all_metafiles(),
+                _ => Then_the_generated_meta_files_are_compatible_to_the_schema_file()
+                ).RunAsyncWithTimeout();
+        }
     }
 
     public class ErrorDataGenerator : IEnumerable<object[]>

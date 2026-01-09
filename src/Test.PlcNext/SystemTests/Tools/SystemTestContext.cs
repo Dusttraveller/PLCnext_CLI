@@ -19,12 +19,10 @@ using PlcNext.Common.Templates.Description;
 using PlcNext.Common.Tools;
 using PlcNext.Common.Tools.FileSystem;
 using PlcNext.Common.Tools.UI;
-using SharpCompress.Common;
 using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -630,7 +628,28 @@ namespace Test.PlcNext.SystemTests.Tools
 
             await CommandLineParser.Parse(arguments.ToArray());
         }
-        
+
+        public void CheckMetaFilesAreCompatibleToSchema()
+        {
+            knownProjectName.ShouldNotBeNullOrEmpty("Cannot check if project name is not known.");
+            string libmetaFile = GetPathOfGeneratedFile($"{knownProjectName}.{Constants.LibmetaExtension}", Constants.MetadataFolderName);
+
+            
+            XmlSerializer serializer = new XmlSerializer(typeof(MetaConfigurationDocument));
+            MetaConfigurationDocument document;
+            using (Stream fileStream = fileSystemAbstraction.Open(libmetaFile))
+            using (System.Xml.XmlReader reader = System.Xml.XmlReader.Create(fileStream))
+            {
+                document = (MetaConfigurationDocument)serializer.Deserialize(reader);
+            }
+
+            MetaConfigurationDocument schemaMetaConfig = new MetaConfigurationDocument();
+
+            document.schemaVersion.ShouldBe(schemaMetaConfig.schemaVersion);
+
+        }
+
+
         public void CheckTypemetaFile(TypemetaStructure[] typemetaStructures, bool structureIsComplete = false)
         {
             knownProjectName.ShouldNotBeNullOrEmpty("Cannot check if project name is not known.");
@@ -1698,6 +1717,6 @@ namespace Test.PlcNext.SystemTests.Tools
             availableArgumentNames.ShouldContain(Constants.noTimestampArgumentKey);
             availableArgumentNames.ShouldContain(Constants.passwordArgumentKey);
             availableArgumentNames.ShouldContain(Constants.timestampConfiguration);
-        }
     }
+}
 }

@@ -162,7 +162,8 @@ namespace PlcNext.Common.Build
                     return;
                 }
 
-                document.schemaVersion = "4.0";
+                MetaConfigurationDocument schemaMetaConfig = new MetaConfigurationDocument();
+                document.schemaVersion = schemaMetaConfig.schemaVersion;
                 LibraryDefinition definition = (LibraryDefinition) document.Item;
                 IEnumerable<string> dependencies = externalLibraries.Select(Path.GetFileName)
                                                                     .Concat(definition.Dependencies?.Select(d => d.path)??
