@@ -9,6 +9,8 @@
 
 using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 
 [assembly:NeutralResourcesLanguage("en-US")]
 [assembly: AssemblyTrademark("PHOENIX CONTACT GmbH & Co. KG")]
+[assembly: InternalsVisibleTo("Test.PlcNext")]
