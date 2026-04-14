@@ -162,5 +162,11 @@ namespace Test.PlcNext.SystemTests.StepDefinitions
 			ScenarioContext.FindTargetOnExplore(name, version);
         }
 
-	}
+		protected void Given_is_that_the_tool_locations_are_provided_via_FILE(string fileName, params string[] executableNames)
+		{
+			ScenarioContext.SetupExecutables(fileName, executableNames);
+		}
+
+
+    }
 }

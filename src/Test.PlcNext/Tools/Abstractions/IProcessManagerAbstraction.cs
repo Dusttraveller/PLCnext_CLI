@@ -14,6 +14,7 @@ namespace Test.PlcNext.Tools.Abstractions
         bool ThrowError { get; set; }
         string ExitWithErrorForCommand { get; set; }
         bool CommandExecuted(string command, params string[] args);
+        void CheckCommandExecuted(string command, params string[] args);
         string GetLastCommandArgs(string executable);
         void WithOtherProgramInstance(int processId);
     }

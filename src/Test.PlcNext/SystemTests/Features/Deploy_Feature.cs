@@ -613,6 +613,23 @@ namespace Test.PlcNext.SystemTests.Features
         }
 
         [Scenario]
+        public async Task Deploy_with_custom_tool_deploystep_executes_custom_tools()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_the_project("CustomToolDeployProject"),
+                _ => Given_is_the_working_directory_PATH("CustomToolDeployProject"),
+                _ => Given_is_that_the_tool_locations_are_provided_via_FILE("CustomToolFileNames.xml", "FirstTool", "SecondTool"),
+                 _ => When_I_deploy(new DeployCommandArgs
+                 {
+                     Targets = new[] { "axcf2152,20.6.0.12345" }
+                 }),
+                _ => Then_the_custom_tool_was_executed_with_arguments("FirstTool", "-version"),
+                _ => Then_the_custom_tool_was_executed_with_arguments("SecondTool" )
+                ).RunAsyncWithTimeout();
+
+        }
+
+        [Scenario]
         public async Task Deploy_when_librarybuilder_exits_with_error()
         {
             await Runner.AddSteps(

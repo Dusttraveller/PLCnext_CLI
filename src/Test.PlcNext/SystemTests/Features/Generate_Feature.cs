@@ -1173,6 +1173,18 @@ namespace Test.PlcNext.SystemTests.Features
                 _ => Then_the_generated_meta_files_are_compatible_to_the_schema_file()
                 ).RunAsyncWithTimeout();
         }
+        
+        [Scenario]
+        public async Task Generate_snproject_builds_csharpproject()
+        {
+            await Runner.AddSteps(
+                _ => Given_is_the_project("SharedNative"),
+                _ => Given_is_the_working_directory_PATH("SharedNative/SharedNativeCpp"),
+                _ => When_I_generate_all_without_setting_the_project_path(),
+                _ => Then_the_generate_command_was_executed_without_error()
+                
+            ).RunAsyncWithTimeout();
+        }
     }
 
     public class ErrorDataGenerator : IEnumerable<object[]>

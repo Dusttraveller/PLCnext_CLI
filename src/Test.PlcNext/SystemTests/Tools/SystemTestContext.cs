@@ -1211,6 +1211,11 @@ namespace Test.PlcNext.SystemTests.Tools
                                                                                     "expected to have been executed.");
         }
 
+        public void CheckToolWasExecutedWithArguments(string toolName, params string[] arguments)
+        {
+            processManagerAbstraction.CheckCommandExecuted(toolName, arguments);
+        }
+
         public void RemoveFromWebServer(string path)
         {
             downloadServiceAbstraction.RemoveFromServer(path);
@@ -1253,6 +1258,22 @@ namespace Test.PlcNext.SystemTests.Tools
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Test.PlcNext.Deployment.{fileContent}"))
             {
                 fileSystemAbstraction.Load(stream, path);
+            }
+        }
+
+        public void SetupExecutables(string fileNamesFileName, params string[] fileNames)
+        {
+            foreach (string file in fileNames)
+            {
+                //HACK - implicit creates file
+                fileSystemAbstraction.FileSystem.GetFile(Path.Combine(AssemblyDirectory, "bin", file));
+            }
+            VirtualFile fileNamesFile = fileSystemAbstraction.FileSystem.GetFile(Path.Combine(AssemblyDirectory, "file-names.xml"));
+            using (Stream fileStream = fileNamesFile.OpenWrite())
+            using (Stream resourcStream = Assembly.GetExecutingAssembly()
+                                                  .GetManifestResourceStream($"Test.PlcNext.Deployment.{fileNamesFileName}"))
+            {
+                resourcStream.CopyTo(fileStream);
             }
         }
 

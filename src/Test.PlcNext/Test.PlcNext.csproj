@@ -62,6 +62,13 @@
     <None Remove="Deployment\CppSpecial\src\CppSpecialComponent.hpp" />
     <None Remove="Deployment\CppSpecial\src\CppSpecialProgram.cpp" />
     <None Remove="Deployment\CppSpecial\src\CppSpecialProgram.hpp" />
+    <None Remove="Deployment\CustomToolDeployProject\CMakeLists.txt" />
+    <None Remove="Deployment\CustomToolDeployProject\external\ADD_DEPENDENT_LIBRARIES_HERE.txt" />
+    <None Remove="Deployment\CustomToolDeployProject\How_to_deploy.txt" />
+    <None Remove="Deployment\CustomToolDeployProject\src\CustomToolDeployProjectComponent.cpp" />
+    <None Remove="Deployment\CustomToolDeployProject\src\CustomToolDeployProjectComponent.hpp" />
+    <None Remove="Deployment\CustomToolDeployProject\src\CustomToolDeployProjectLibrary.acf.config" />
+    <None Remove="Deployment\CustomToolDeployProject\src\CustomToolDeployProjectLibraryInfo.hpp" />
     <None Remove="Deployment\Demo\bin\AXCF2152_20.6.0.12345\Debug\libDemo.so" />
     <None Remove="Deployment\DuplicatePortName\src1\Program1.cpp" />
     <None Remove="Deployment\DuplicatePortName\src1\Program1.hpp" />
@@ -258,6 +265,7 @@
     <None Remove="Deployment\TemplatedStruct\src\TemplatedStructComponent.hpp" />
     <None Remove="Deployment\TemplatedStruct\src\TemplatedStructProgram.cpp" />
     <None Remove="Deployment\TemplatedStruct\src\TemplatedStructProgram.hpp" />
+    <None Remove="Deployment\Templates\Templates.xml" />
     <None Remove="Deployment\TestResults\AcfDataTypes.dt" />
     <None Remove="Deployment\TestResults\AcfProjectCommandArgs.txt" />
     <None Remove="Deployment\TestResults\ArrayDatatypesDataTypes.dt" />
@@ -307,6 +315,7 @@
     <None Remove="Deployment\TestResults\StructWith1000FieldsLibrary.meta.cpp" />
     <None Remove="Deployment\TestResults\TemplatedStructDataTypes.dt" />
     <None Remove="Deployment\TestResults\TemplatedStructLibrary.meta.cpp" />
+    <None Remove="Deployment\Templates\CustomDeployToolTemplate\TemplateDescription.xml" />
     <EmbeddedResource Include="Deployment\AcfProjectv210\CMakeLists.txt" />
     <EmbeddedResource Include="Deployment\AcfProjectv210\external\ADD_DEPENDENT_LIBRARIES_HERE.txt" />
     <EmbeddedResource Include="Deployment\AcfProjectv210\How_to_deploy.txt" />
@@ -347,6 +356,13 @@
     <EmbeddedResource Include="Deployment\CppSpecial\src\CppSpecialComponent.hpp" />
     <EmbeddedResource Include="Deployment\CppSpecial\src\CppSpecialProgram.cpp" />
     <EmbeddedResource Include="Deployment\CppSpecial\src\CppSpecialProgram.hpp" />
+    <EmbeddedResource Include="Deployment\CustomToolDeployProject\CMakeLists.txt" />
+    <EmbeddedResource Include="Deployment\CustomToolDeployProject\external\ADD_DEPENDENT_LIBRARIES_HERE.txt" />
+    <EmbeddedResource Include="Deployment\CustomToolDeployProject\How_to_deploy.txt" />
+    <EmbeddedResource Include="Deployment\CustomToolDeployProject\src\CustomToolDeployProjectComponent.cpp" />
+    <EmbeddedResource Include="Deployment\CustomToolDeployProject\src\CustomToolDeployProjectComponent.hpp" />
+    <EmbeddedResource Include="Deployment\CustomToolDeployProject\src\CustomToolDeployProjectLibrary.acf.config" />
+    <EmbeddedResource Include="Deployment\CustomToolDeployProject\src\CustomToolDeployProjectLibraryInfo.hpp" />
     <EmbeddedResource Include="Deployment\DuplicatePortName\src1\Program1.cpp" />
     <EmbeddedResource Include="Deployment\DuplicatePortName\src1\Program1.hpp" />
     <EmbeddedResource Include="Deployment\DuplicatePortName\src\DuplicatePortNameComponent.cpp" />
@@ -435,6 +451,10 @@
     <EmbeddedResource Include="Deployment\SharedNative\SharedNativeCSharp\NativeFunctionBlock.cs" />
     <EmbeddedResource Include="Deployment\SharedNative\SharedNativeCSharp\ProjectItems\LibraryDescription.xml" />
     <EmbeddedResource Include="Deployment\SharedNative\SharedNativeCSharp\Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Deployment\CustomToolFileNames.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Deployment\StandardSettings.xml" />
     <EmbeddedResource Include="Deployment\StandardWithUnsortedTargets\plcnext.proj" />
     <EmbeddedResource Include="Deployment\StandardWithUnsortedTargets\src\Standard\MyComponent.cpp" />
     <EmbeddedResource Include="Deployment\StandardWithUnsortedTargets\src\Standard\MyComponent.hpp" />
@@ -444,6 +464,7 @@
     <EmbeddedResource Include="Deployment\TemplatedStruct\src\TemplatedStructComponent.hpp" />
     <EmbeddedResource Include="Deployment\TemplatedStruct\src\TemplatedStructProgram.cpp" />
     <EmbeddedResource Include="Deployment\TemplatedStruct\src\TemplatedStructProgram.hpp" />
+    <EmbeddedResource Include="Deployment\Templates\Templates.xml" />
     <EmbeddedResource Include="Deployment\TestResults\ProjectWithConfigFileCommandArgs2.txt" />
     <EmbeddedResource Include="Deployment\TestResults\ProjectWithConfigFileCommandArgs.txt" />
     <EmbeddedResource Include="Deployment\TestResults\DemoLibrarySignCommandArgs2.txt" />
@@ -1018,7 +1039,6 @@
     <EmbeddedResource Include="Deployment\StandardNew\src\StandardNewProgram.hpp" />
     <EmbeddedResource Include="Deployment\StandardPublicCliRepositoryKey.xml" />
     <EmbeddedResource Include="Deployment\StandardSdkProperties.xml" />
-    <EmbeddedResource Include="Deployment\StandardSettings.xml" />
     <EmbeddedResource Include="Deployment\StandardWithBuildArtifacts\intermediate\build\MyComponentImpl.o" />
     <EmbeddedResource Include="Deployment\StandardWithBuildArtifacts\intermediate\build\MyProgramImpl.o" />
     <EmbeddedResource Include="Deployment\StandardWithBuildArtifacts\intermediate\build\StandardWithBuildArtifacts.so" />
@@ -1046,21 +1066,19 @@
     <EmbeddedResource Include="Deployment\TestResults\StructWith1000FieldsLibrary.meta.cpp" />
     <EmbeddedResource Include="Deployment\TestResults\TemplatedStructDataTypes.dt" />
     <EmbeddedResource Include="Deployment\TestResults\TemplatedStructLibrary.meta.cpp" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplates.xml">
-      <Link>Deployment\Templates\TestTemplates.xml</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\.proj" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\DataTypes.dt" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\DataTypes_v2.dt" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\FormatTemplates.xml" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\Library.cpp" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\Library.hpp" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\Library.libmeta" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\Library.meta.cpp" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\Library.typemeta" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\LibraryInfo.hpp" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\Optimized_Library.meta.cpp" />
-    <EmbeddedResource Include="Deployment\TestTemplates\TestTemplate\TemplateDescription.xml" />
+    <EmbeddedResource Include="Deployment\Templates\CustomDeployToolTemplate\TemplateDescription.xml" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\.proj" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\DataTypes.dt" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\DataTypes_v2.dt" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\FormatTemplates.xml" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\Library.cpp" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\Library.hpp" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\Library.libmeta" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\Library.meta.cpp" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\Library.typemeta" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\LibraryInfo.hpp" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\Optimized_Library.meta.cpp" />
+    <EmbeddedResource Include="Deployment\Templates\TestTemplate\TemplateDescription.xml" />
     <EmbeddedResource Include="Deployment\TooManyGeneratedFiles\CMakeLists.txt" />
     <EmbeddedResource Include="Deployment\TooManyGeneratedFiles\intermediate\code\AccessComponent._meta.cpp" />
     <EmbeddedResource Include="Deployment\TooManyGeneratedFiles\intermediate\code\AccessComponentProgramProvider.cpp" />
@@ -1104,7 +1122,6 @@
     <EmbeddedResource Include="..\PlcNext\Templates\ProjectTemplate\TemplateDescription.xml" Link="Deployment\Templates\ProjectTemplate\TemplateDescription.xml" />
     <EmbeddedResource Include="..\PlcNext\Templates\ProjectTemplate\FormatTemplates.xml" Link="Deployment\Templates\ProjectTemplate\FormatTemplates.xml" />
     <EmbeddedResource Include="..\PlcNext\Templates\AcfProjectTemplate\TemplateDescription.xml" Link="Deployment\Templates\AcfProjectTemplate\TemplateDescription.xml" />
-    <EmbeddedResource Include="..\PlcNext\Templates\Templates.xml" Link="Deployment\Templates\Templates.xml" />
     <EmbeddedResource Include="..\PlcNext\Templates\ConsumableLibraryTemplate\CMakeLists.txt" Link="Deployment\Templates\ConsumableLibraryTemplate\CMakeLists.txt" />
     <EmbeddedResource Include="..\PlcNext\Templates\ConsumableLibraryTemplate\How_to_use.txt" Link="Deployment\Templates\ConsumableLibraryTemplate\How_to_use.txt" />
     <EmbeddedResource Include="..\PlcNext\Templates\ConsumableLibraryTemplate\TemplateDescription.xml" Link="Deployment\Templates\ConsumableLibraryTemplate\TemplateDescription.xml" />
@@ -1188,6 +1205,7 @@
     <EmbeddedResource Include="Deployment\ArrayDatatypes\plcnext.proj" />
     <EmbeddedResource Include="Deployment\ArrayDatatypesWithoutDTArrayFlag\plcnext.proj" />
     <None Include="Deployment\CodeFilesWithError\plcnext.proj" />
+    <EmbeddedResource Include="Deployment\CustomToolDeployProject\plcnext.proj" />
     <EmbeddedResource Include="Deployment\LibraryInfoTest\plcnext.proj" />
     <EmbeddedResource Include="Deployment\IdentifierCheckTest\plcnext.proj" />
     <EmbeddedResource Include="Deployment\ProjectWithConfigFile\plcnext.proj" />

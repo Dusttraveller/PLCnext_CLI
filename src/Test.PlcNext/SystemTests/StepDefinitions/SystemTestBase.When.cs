@@ -342,5 +342,10 @@ namespace Test.PlcNext.SystemTests.StepDefinitions
         {
             await ScenarioContext.GenerateAll(true);
         }
+        
+        protected async Task When_I_generate_all_without_setting_the_project_path()
+        {
+            await ScenarioContext.GenerateAll(false);
+        }
     }
 }

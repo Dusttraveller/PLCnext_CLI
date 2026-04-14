@@ -8,8 +8,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Autofac;
 using PlcNext.Common.Tools;
 using PlcNext.Common.Tools.FileSystem;
@@ -18,7 +16,6 @@ using PlcNext.Common.Tools.MSBuild;
 using PlcNext.Common.Tools.Process;
 using PlcNext.Common.Tools.SDK;
 using PlcNext.Common.Tools.UI;
-using PlcNext.Common.Tools.Web;
 
 namespace PlcNext.Common
 {

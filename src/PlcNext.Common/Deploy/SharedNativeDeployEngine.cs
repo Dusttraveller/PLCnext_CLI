@@ -33,10 +33,12 @@ namespace PlcNext.Common.Deploy
         private readonly IProcessManager processManager;
         private readonly ILog log;
         private readonly IMSBuildFinder msBuildFinder;
+        private readonly IProjectInformationProvider projectInformationProvider;
 
         public SharedNativeDeployEngine([KeyFilter("DefaultDeployEngine")] IDeployService defaultDeployService, IFileSystem fileSystem,
                                         ExecutionContext executionContext, IDirectoryPackService directoryPackService,
-                                        IProcessManager processManager, ILog log, IMSBuildFinder msBuildFinder)
+                                        IProcessManager processManager, ILog log, IMSBuildFinder msBuildFinder,
+                                        IProjectInformationProvider projectInformationProvider)
         {
             this.defaultDeployService = defaultDeployService;
             this.fileSystem = fileSystem;
@@ -45,6 +47,7 @@ namespace PlcNext.Common.Deploy
             this.processManager = processManager;
             this.log = log;
             this.msBuildFinder = msBuildFinder;
+            this.projectInformationProvider = projectInformationProvider;
         }
 
         public void DeployFiles(Entity dataModel)
@@ -268,7 +271,7 @@ namespace PlcNext.Common.Deploy
             {
                 MSBuildData msbuild = msBuildFinder.FindMSBuild(dataModel.Root);
 
-                return MSBuildProjectInformationProvider.GetCSharpProjectOutputPath(processManager, log, csharpProjectPath, msbuild);
+                return projectInformationProvider.GetCSharpProjectOutputPath(csharpProjectPath, msbuild);
             }
         }
     }

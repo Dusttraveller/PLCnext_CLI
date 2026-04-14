@@ -231,6 +231,11 @@ namespace Test.PlcNext.SystemTests.StepDefinitions
             ScenarioContext.CheckBuildStartedAndEnded();
         }
 
+        protected void Then_the_custom_tool_was_executed_with_arguments(string toolName, params string[] arguments)
+        {
+            ScenarioContext.CheckToolWasExecutedWithArguments(toolName, arguments);
+        }
+
         protected void Then_the_code_entity_was_created()
         {
             ScenarioContext.CheckCodeEntityCreated();

@@ -14,9 +14,23 @@ using System.Text.RegularExpressions;
 
 namespace PlcNext.Common.Tools.MSBuild
 {
-    internal class MSBuildProjectInformationProvider
+
+    internal interface IProjectInformationProvider
     {
-        public static string GetCSharpProjectOutputPath(IProcessManager processManager, ILog log, string csharpProjectPath, MSBuildData msbuild)
+        string GetCSharpProjectOutputPath(string csharpProjectPath, MSBuildData msbuild);
+    }
+    
+    internal class MSBuildProjectInformationProvider : IProjectInformationProvider
+    {
+        private readonly IProcessManager processManager;
+        private readonly ILog log;
+        public MSBuildProjectInformationProvider(IProcessManager processManager, ILog log)
+        {
+            this.processManager = processManager;
+            this.log = log;
+        }
+        
+        public string GetCSharpProjectOutputPath(string csharpProjectPath, MSBuildData msbuild)
         {
             StringBuilderUserInterface userInterface = new StringBuilderUserInterface(log, writeInformation: true, writeError: true);
             string arguments = $"{(string.IsNullOrEmpty(msbuild.Parameters) ? string.Empty : msbuild.Parameters + " ")}-target:GetProjectVariables \"{csharpProjectPath}\"";

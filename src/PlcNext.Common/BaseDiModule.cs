@@ -29,6 +29,7 @@ using PlcNext.Common.Templates;
 using PlcNext.Common.Tools;
 using PlcNext.Common.Tools.DynamicCommands;
 using PlcNext.Common.Tools.IO;
+using PlcNext.Common.Tools.MSBuild;
 using PlcNext.Common.Tools.Priority;
 using PlcNext.Common.Tools.SDK;
 using PlcNext.Common.Tools.Security;
@@ -141,6 +142,8 @@ namespace PlcNext.Common
             builder.RegisterType<AcfGenerateStep>().As<IGenerateStep>().InstancePerLifetimeScope();
             builder.RegisterType<EmptyDeployEngine>().Keyed<IDeployService>("EmptyDeployEngine").InstancePerLifetimeScope();
             builder.RegisterType<ToolExecutionDeployStep>().As<IDeployStep>().InstancePerLifetimeScope();
+            builder.RegisterType<MSBuildProjectInformationProvider>().As<IProjectInformationProvider>().InstancePerLifetimeScope();
+            
             if (activateAutoComponents)
             {
                 AddAutoActivatedComponents(builder, noSdkExploration);

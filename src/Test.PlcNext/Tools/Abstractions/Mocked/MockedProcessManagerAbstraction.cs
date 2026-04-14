@@ -7,15 +7,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using NSubstitute;
 using NSubstitute.Core;
 using PlcNext.Common.Tools;
 using PlcNext.Common.Tools.Process;
 using PlcNext.Common.Tools.UI;
 using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Test.PlcNext.SystemTests.Tools;
 
 namespace Test.PlcNext.Tools.Abstractions.Mocked
@@ -48,6 +48,14 @@ namespace Test.PlcNext.Tools.Abstractions.Mocked
         public bool CommandExecuted(string command, params string[] args)
         {
             return executedCommands.Any(c => c.Executable.Contains(command) && args.All(c.Arguments.Contains));
+        }
+
+        public void CheckCommandExecuted(string command, params string[] args)
+        {
+            CommandExecuted(command, args).ShouldBeTrue(
+                $"command {command} {string.Join(" ",args)} was expected to be executed. " +
+                $"Available commands are:{Environment.NewLine}" +
+                $"{string.Join(Environment.NewLine, executedCommands.Select(c => c.ToString()))}");
         }
 
         public string GetLastCommandArgs(string executable)

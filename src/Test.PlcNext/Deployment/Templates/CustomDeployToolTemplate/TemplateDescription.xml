@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TemplateDescription name="CustomToolDeployProject" isRoot="true" basedOn="baseproject" supportedFirmwareVersions="19.0.0.16199" requiredCliVersion="25.6.0" version="1.0"
+                     xmlns="http://www.phoenixcontact.com/schema/clitemplates" identifier="ProjectSettingsIdentifier" deployEngine="EmptyDeployEngine">
+  <Arguments>
+    <Argument name="component" has-value="true" short-name="c" help="The name of the component which will be automatically created." default="$(name.format.lastNamespacePart)Component">
+      <ValueRestriction min-length="2" max-length="128" description="This must be a valid C++ type name. It must start with an upper case letter.">
+        <Pattern>^[A-Z](?!.*__)[a-zA-Z0-9_]*$</Pattern>
+      </ValueRestriction>
+    </Argument>
+    <Argument name="namespace" help="The root namespace for the acfproject. It is used to resolve the initial component namespace." />
+  </Arguments>
+  <AddTemplate template="acfcomponent">
+    <Arguments>
+      <Argument name="name" value="$(component)"/>
+      <Argument name="namespace" value="$(namespace)"/>
+    </Arguments>
+  </AddTemplate>
+  <File name="plcnext.proj" template=".proj"/>
+  <Folder name="src"/>
+  <File name="$(name.format.lastNamespacePart.format.escapeProjectName)LibraryInfo.hpp" template="LibraryInfo.hpp" path="src"  excludedForEmptyTemplate="true"/>
+  <File name="How_to_deploy.txt" template="How_to_deploy.txt" deployPath="."/>
+  <File name="$(name.format.lastNamespacePart.format.escapeProjectName)Library.acf.config" deployPath="." template="acf.config" path="src"/>
+  <GeneratedFile name="$(name.format.lastNamespacePart.format.escapeProjectName)Library.cpp" template="Library.cpp"
+				 generator="code" aggregated="generated.cpp" minversion="1.2" />
+  <GeneratedFile name="$(name.format.lastNamespacePart.format.escapeProjectName)Library.cpp" template="old_Library.cpp"
+	   			 generator="code" aggregated="generated.cpp" maxversion="1.1"/>
+  <GeneratedFile name="$(name.format.lastNamespacePart.format.escapeProjectName)Library.hpp" template="Library.hpp"
+				 generator="code" aggregated="generated.hpp"
+				 key="library"/>
+  <GeneratedFile name="$(name.format.lastNamespacePart.format.escapeProjectName)Library.meta.cpp" template="Library.meta.cpp" condition="$(normal-project)"
+				 generator="code" aggregated="generated.cpp"/>
+  <GeneratedFile name="$(name.format.lastNamespacePart.format.escapeProjectName)Library.meta.cpp" template="Optimized_Library.meta.cpp" condition="$(big-data-project)"
+				 generator="code" aggregated="generated.cpp"/>
+  <GeneratedFile name="$(namespace).libmeta"  template="Library.libmeta"
+				 generator="Config"/>
+  <GeneratedFile name="$(namespace).typemeta" template="Library.typemeta"
+        		 generator="Config" />
+  <GeneratedFile name="$(namespace)DataTypes.dt" template="DataTypes.dt" condition="$(origin.no-datatypes-worksheet.negate)"
+				   generator="Config" />
+  <Description>Create a new acfproject.The acfproject is a template for component based platform development. The resulting component will be managed by the ACF (Application Component Framework). More help available in the PLCnext Community.</Description>
+  
+  <GenerateStep generator="code" identifier="AcfGenerateStep" />
+  <GenerateStep generator="config">
+    <Arguments>
+      <Argument name="no-datatypes-worksheet" help="Add this flag if a datatypes worksheet shall NOT be generated."/>
+    </Arguments>
+  </GenerateStep>
+  <DeployPostStep identifier="ToolExecutionDeployStep">
+    <Arguments>
+      <Argument name="FirstCustomToolCall" has-value="true" help="Additional options for calling first custom tool can be entered here. They will be appended to the options defined. " />
+    </Arguments>
+    <FixedArguments>
+      <FixedArgument name="toolname" value="FirstTool" />
+      <FixedArgument name="tooloptions" value="-version" />
+    </FixedArguments>
+  </DeployPostStep>
+  <DeployPostStep identifier="ToolExecutionDeployStep">
+    <Arguments>
+      <Argument name="MyCustomToolCall" has-value="true" help="Additional options for calling the tool xyz can be entered here. They will be appended to options defined in the template. "/>
+    </Arguments>
+    <FixedArguments>
+      <FixedArgument name="toolname" value="SecondTool" />
+      <FixedArgument name="tooloptions" value="" />
+    </FixedArguments>
+  </DeployPostStep>
+</TemplateDescription>

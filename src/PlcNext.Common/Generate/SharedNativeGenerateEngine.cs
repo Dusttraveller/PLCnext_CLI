@@ -39,11 +39,13 @@ namespace PlcNext.Common.Generate
         private readonly ILog log;
         private readonly FileGenerationHelper generationHelper;
         private readonly IMSBuildFinder msBuildFinder;
+        private readonly IProjectInformationProvider projectInformationProvider;
 
         public SharedNativeGenerateEngine([KeyFilter("DefaultGenerateEngine")] ITemplateFileGenerator templateFileGenerator, 
                                           IFileSystem fileSystem,
                                           IProcessManager processManager, ExecutionContext executionContext, ILog log,
-                                          ITemplateResolver resolver, ITemplateRepository repository, IMSBuildFinder msBuildFinder)
+                                          ITemplateResolver resolver, ITemplateRepository repository, IMSBuildFinder msBuildFinder,
+                                          IProjectInformationProvider projectInformationProvider)
         {
             this.templateFileGenerator = templateFileGenerator;
             this.fileSystem = fileSystem;
@@ -52,6 +54,7 @@ namespace PlcNext.Common.Generate
             this.log = log;
             this.resolver = resolver;
             this.msBuildFinder = msBuildFinder;
+            this.projectInformationProvider = projectInformationProvider;
 
             generationHelper = new FileGenerationHelper(resolver, repository, fileSystem);
         }
@@ -85,7 +88,7 @@ namespace PlcNext.Common.Generate
             }
 
             MSBuildData msbuild = msBuildFinder.FindMSBuild(rootEntity);
-            string niBuilderOutputPath = MSBuildProjectInformationProvider.GetCSharpProjectOutputPath(processManager, log, csharpProjectPath, msbuild);
+            string niBuilderOutputPath = projectInformationProvider.GetCSharpProjectOutputPath(csharpProjectPath, msbuild);
 
             IEnumerable<VirtualFile> outputFolderFiles = Enumerable.Empty<VirtualFile>();
             if (fileSystem.DirectoryExists(niBuilderOutputPath, csharpProjectPath))
